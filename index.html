@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Mr-Terrestrial Terminal</title>
+    <link rel="stylesheet" href="https://unpkg.com/xterm@4.19.0/css/xterm.css" />
+    <script src="https://unpkg.com/xterm@4.19.0/lib/xterm.js"></script>
+    <script src="https://unpkg.com/xterm-addon-fit@0.5.0/lib/xterm-addon-fit.js"></script>
+    <style>
+        body {
+            background-color: #000;
+            margin: 0;
+            padding: 10px;
+            height: 100vh;
+            font-family: monospace;
+        }
+        #terminal {
+            height: 90vh;
+            width: 100%;
+        }
+        .logo {
+            color: #0f0;
+            text-align: center;
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+    <pre class="logo">
+ ███╗   ███╗██████╗       ████████╗███████╗██████╗ ██████╗ ███████╗███████╗████████╗██████╗ ██╗ █████╗ ██╗     
+ ████╗ ████║██╔══██╗      ╚══██╔══╝██╔════╝██╔══██╗██╔══██╗██╔════╝██╔════╝╚══██╔══╝██╔══██╗██║██╔══██╗██║     
+ ██╔████╔██║██████╔╝█████╗   ██║   █████╗  ██████╔╝██████╔╝█████╗  ███████╗   ██║   ██████╔╝██║███████║██║     
+ ██║╚██╔╝██║██╔══██╗╚════╝   ██║   ██╔══╝  ██╔══██╗██╔══██╗██╔══╝  ╚════██║   ██║   ██╔══██╗██║██╔══██║██║     
+ ██║ ╚═╝ ██║██║  ██║         ██║   ███████╗██║  ██║██║  ██║███████╗███████║   ██║   ██║  ██║██║██║  ██║███████╗
+ ╚═╝     ╚═╝╚═╝  ╚═╝         ╚═╝   ╚══════╝╚═╝  ╚═╝╚═╝  ╚═╝╚══════╝╚══════╝   ╚═╝   ╚═╝  ╚═╝╚═╝╚═╝  ╚═╝╚══════╝
+    </pre>
+    <div id="terminal"></div>
+
+    <script>
+        // Initialize Terminal
+        const term = new Terminal({
+            cursorBlink: true,
+            theme: {
+                background: '#000000',
+                foreground: '#00ff00',
+                cursor: '#00ff00'
+            },
+            fontFamily: 'monospace',
+            fontSize: 14
+        });
+        
+        const fitAddon = new FitAddon.FitAddon();
+        term.loadAddon(fitAddon);
+        term.open(document.getElementById('terminal'));
+        fitAddon.fit();
+
+        // Initial text
+        term.write('\x1B[1;31m┌──[SYSTEM]─[INITIALIZING]\r\n\x1B[0m');
+        term.write('\x1B[1;31m└──╼ \x1B[33m./identityscan.sh --target="visitor" --verbose\r\n\x1B[0m');
+        term.write('\r\n\x1B[1;32m[ACCESS GRANTED TO TERRESTRIAL TERMINAL]\x1B[0m\r\n\r\n');
+        
+        // Command prompt
+        const prompt = () => {
+            term.write('\r\n\x1B[1;32mmr-terrestrial $\x1B[0m ');
+        };
+
+        // Help message
+        const help = `
+Available commands:
+  \x1B[1;36mwhoami\x1B[0m           - Display identity information
+  \x1B[1;36mskills\x1B[0m           - Show technical skills
+  \x1B[1;36mcontact\x1B[0m          - Display contact information
+  \x1B[1;36mprojects\x1B[0m         - List current projects
+  \x1B[1;36mclear\x1B[0m            - Clear the screen
+  \x1B[1;36mhack\x1B[0m             - Attempt to hack the system
+  \x1B[1;36mhelp\x1B[0m             - Show this help message
+  \x1B[1;36mexit\x1B[0m             - Return to GitHub profile
+`;
+
+        // Available commands
+        const commands = {
+            'whoami': () => {
+                term.write('\r\n\x1B[1;36m# SUBJECT: ALI ZAMINI\r\n# ALIAS: MR-TERRESTRIAL\r\n# STATUS: ACTIVE\x1B[0m');
+            },
+            'skills': () => {
+                term.write('\r\n$ lsmod | grep "skillset"\r\nMODULE                  SIZE  USED BY\r\npython                 74326  23\r\nbash                   52483  15\r\nfastapi                32867  6\r\nsqlite                 22947  4\r\nlinux_expertise        96253  31\r\nkali_prowess           52483  15\r\npostgresql             35194  8\r\nnetwork_analysis      128473  32');
+            },
+            'contact': () => {
+                term.write('\r\n\x1B[1;33m[ESTABLISHING SECURE CONNECTION]\r\n[CONNECTION ESTABLISHED]\r\n[ENCRYPTED CHANNELS OPEN]\r\n\x1B[0m\r\n\x1B[1;32mAVAILABLE NETWORK INTERFACES:\r\n\r\nLinkedIn: https://linkedin.com/in/ali-zamini\r\nEmail: zamini.ali16@gmail.com\r\nMedium: https://medium.com/@ali.zamini\x1B[0m');
+            },
+            'projects': () => {
+                term.write('\r\n\x1B[1;33m[DECRYPTING PROJECT DATABASE]\r\n\x1B[0m\r\n1. Vulnerability Research - cloud infrastructure\r\n2. Custom Penetration Testing Tools\r\n3. Binary Exploitation Research\r\n4. CTF Competition Challenges');
+            },
+            'clear': () => {
+                term.clear();
+            },
+            'hack': () => {
+                term.write('\r\n\x1B[1;31mACCESS DENIED\r\n\x1B[0m\r\n\x1B[1;33mNice try! But this system is protected by advanced security measures.\r\nThe attempt has been logged.\x1B[0m');
+            },
+            'help': () => {
+                term.write(help);
+            },
+            'exit': () => {
+                term.write('\r\n\x1B[1;33m[CLOSING SECURE CONNECTION]\r\n[REDIRECTING TO GITHUB PROFILE]\x1B[0m');
+                setTimeout(() => window.location.href = "https://github.com/Mrterrestrial", 2000);
+            }
+        };
+
+        // Track current input
+        let currentInput = '';
+        
+        // Show initial prompt
+        prompt();
+        
+        // Handle input
+        term.onKey(({ key, domEvent }) => {
+            const printable = !domEvent.altKey && !domEvent.ctrlKey && !domEvent.metaKey;
+            
+            // Enter key
+            if (domEvent.keyCode === 13) {
+                // Process the command
+                const command = currentInput.trim().toLowerCase();
+                
+                if (command in commands) {
+                    commands[command]();
+                } else if (command !== '') {
+                    term.write(`\r\n\x1B[1;31mCommand not found: ${currentInput}\x1B[0m\r\n\x1B[1;33mHahaha! You think you are intelligent?\x1B[0m`);
+                }
+                
+                // Reset input and show new prompt
+                currentInput = '';
+                prompt();
+            }
+            // Backspace
+            else if (domEvent.keyCode === 8) {
+                if (currentInput.length > 0) {
+                    currentInput = currentInput.slice(0, -1);
+                    term.write('\b \b');
+                }
+            }
+            // Regular character
+            else if (printable) {
+                currentInput += key;
+                term.write(key);
+            }
+        });
+
+        // Handle window resizing
+        window.addEventListener('resize', () => {
+            fitAddon.fit();
+        });
+
+        // Show help message on start
+        setTimeout(() => {
+            term.write('\r\nType \x1B[1;36mhelp\x1B[0m for available commands.\r\n');
+        }, 1000);
+    </script>
+</body>
+</html>
